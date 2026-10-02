@@ -2,6 +2,10 @@
 
 Mýa's Music Challenge is a 2D karaoke game for Windows PCs. Mýa (Mýa Harrison) is the main character. Pick one of her songs, sing it into your microphone, and when the song ends Mýa gives you a **professional singing assessment**. Every completed performance also earns **Arcade1870 (A1870)** tokens, paid from the **same reward treasury used by [Crypto Hockey](https://github.com/jcampbell1870/Crypto-Hockey)**.
 
+**Play in Chrome or download:** [Open the GitHub Pages game](https://jcampbell1870.github.io/Mya-s-Music-Challenge-/) · [Windows PC download](https://github.com/jcampbell1870/Mya-s-Music-Challenge-/releases/latest/download/MyaMusicChallenge-Windows-x64.zip) · [Chromebook download](https://github.com/jcampbell1870/Mya-s-Music-Challenge-/releases/latest/download/MyaMusicChallenge-Chromebook.zip)
+
+The Chromebook/browser edition is an installable, microphone-powered vocal warm-up and pitch challenge. Open the Pages link in Chrome and choose **Install game** (or Chrome menu → **Install page as app**). Its audio analysis runs locally in your browser. The Windows edition is the full desktop karaoke game. The project does not include copyrighted songs, lyrics, or backing tracks.
+
 ## Features
 
 - **The Mýa stage show.** Mýa is drawn on a concert stage with spotlights, a light show and a crowd. She sings along while you perform, talks you through your results, and celebrates big scores.
@@ -33,6 +37,7 @@ Mýa's Music Challenge is a 2D karaoke game for Windows PCs. Mýa (Mýa Harrison
 ## Requirements
 
 - Windows 10/11 with a microphone. Headphones are recommended so the mic only hears your voice and not the backing track.
+- Chromebook: Chrome browser and microphone permission for the secure GitHub Pages site. Installing the site as a Chrome app is optional.
 - The [.NET 10 SDK](https://dotnet.microsoft.com/download) to build from source.
 
 ## Build & run
@@ -136,6 +141,11 @@ src/MyasMusicChallenge/        Windows game (WinForms + NAudio)
   Rendering/    stage, Mýa character, UI helpers
   Audio/        microphone capture, backing-track playback
 tests/MyasMusicChallenge.Tests/  xUnit tests
+docs/                             GitHub Pages browser game and installable PWA
 ```
+
+## Publishing downloads
+
+GitHub Pages deploys the browser game from `docs/` when changes reach `main` or `master`. The public Pages URL is [jcampbell1870.github.io/Mya-s-Music-Challenge-/](https://jcampbell1870.github.io/Mya-s-Music-Challenge-/). Set **Settings → Pages → Build and deployment → Source** to **GitHub Actions** once to enable deployment. Each update to `main` or `master` publishes Windows and Chromebook ZIP downloads; pushing a `v*` version tag publishes a named release. The download buttons above always point to the latest release.
 
 *Mýa's Music Challenge is a fan-made game and is not affiliated with Mýa, her labels or Spotify.*

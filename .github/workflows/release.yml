@@ -1,0 +1,102 @@
+name: Package game downloads
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to package (for example v1.0.0)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Publish Windows game
+        run: dotnet publish src/MyasMusicChallenge -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/windows
+      - name: Package Windows download
+        shell: pwsh
+        run: Compress-Archive -Path artifacts/windows/* -DestinationPath artifacts/MyaMusicChallenge-Windows-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-download
+          path: artifacts/MyaMusicChallenge-Windows-x64.zip
+          if-no-files-found: error
+
+  release:
+    runs-on: ubuntu-latest
+    needs: windows
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/download-artifact@v4.3.0
+        with:
+          name: windows-download
+          path: artifacts
+      - name: Package Chromebook browser app
+        run: |
+          mkdir -p artifacts/chromebook
+          cp -R docs/. artifacts/chromebook/
+          cat > artifacts/chromebook/CHROMEBOOK-README.txt <<'EOF'
+          MYA'S MUSIC CHALLENGE — CHROMEBOOK
+
+          Recommended: visit https://jcampbell1870.github.io/Mya-s-Music-Challenge-/ in Chrome.
+          Start a challenge and allow microphone access. Use Chrome's menu to install the
+          game as an app. Microphone audio is analyzed on your device and is not uploaded.
+
+          This ZIP is a copy of the browser app for offline browsing. Browsers restrict
+          microphone access for files opened directly from disk; use the secure HTTPS
+          GitHub Pages site to play with microphone pitch detection.
+          EOF
+          cd artifacts/chromebook
+          zip -qr ../MyaMusicChallenge-Chromebook.zip .
+      - name: Publish release downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG_INPUT: ${{ inputs.tag }}
+        run: |
+          if [ -n "$RELEASE_TAG_INPUT" ]; then
+            tag="$RELEASE_TAG_INPUT"
+          elif [ "$GITHUB_REF_TYPE" = "branch" ]; then
+            tag="build-$GITHUB_RUN_NUMBER"
+          else
+            tag="$GITHUB_REF_NAME"
+          fi
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" \
+              artifacts/MyaMusicChallenge-Windows-x64.zip \
+              artifacts/MyaMusicChallenge-Chromebook.zip \
+              --clobber
+          else
+            gh release create "$tag" \
+              artifacts/MyaMusicChallenge-Windows-x64.zip \
+              artifacts/MyaMusicChallenge-Chromebook.zip \
+              --title "Mýa's Music Challenge $tag" \
+              --notes "Windows desktop game and Chromebook browser app downloads. The Chromebook PWA is available from GitHub Pages and can be installed from Chrome." \
+              --latest
+          fi
+        if: ${{ !inputs.tag }}
+      - name: Upload downloads to existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG_INPUT: ${{ inputs.tag }}
+        run: |
+          tag="$RELEASE_TAG_INPUT"
+          gh release upload "$tag" \
+            artifacts/MyaMusicChallenge-Windows-x64.zip \
+            artifacts/MyaMusicChallenge-Chromebook.zip \
+            --clobber
+        if: ${{ inputs.tag }}
