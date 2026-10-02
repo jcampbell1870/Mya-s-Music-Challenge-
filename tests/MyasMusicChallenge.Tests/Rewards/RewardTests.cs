@@ -8,6 +8,15 @@ namespace MyasMusicChallenge.Tests.Rewards;
 
 public class RewardTests
 {
+    [Theory]
+    [InlineData(100, true)]
+    [InlineData(99, false)]
+    [InlineData(0, false)]
+    public void GoldRecordReward_RequiresPerfectScore(int score, bool expected)
+    {
+        Assert.Equal(expected, GoldRecordReward.IsEarned(score));
+    }
+
     private const string Wallet = "0x1111111111111111111111111111111111111111";
     private const string Vault = RewardTreasuryOptions.CryptoHockeyRewardVaultAddress;
     private static readonly string Signature = "0x" + new string('a', 64) + new string('b', 64) + "1b";

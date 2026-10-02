@@ -31,6 +31,11 @@ public sealed class ResultsScene : Scene
         _assessment = assessment;
         _playedSeconds = playedSeconds;
         _speech = [.. assessment.SpeechLines()];
+        if (GoldRecordReward.IsEarned(assessment.OverallScore))
+        {
+            _speech.Add("A perfect 100! You earned a Gold Record!");
+        }
+
         _proof = PlayReward.CreateProof(entry.Song.Id, assessment.OverallScore, DateTime.UtcNow);
         _record = new PerformanceRecord
         {
@@ -55,6 +60,8 @@ public sealed class ResultsScene : Scene
     }
 
     private RewardTreasuryOptions Rewards => Context.Settings.Rewards;
+
+    private bool EarnedGoldRecord => GoldRecordReward.IsEarned(_assessment.OverallScore);
 
     private bool LineFullyShown => (Time - _lineStart) * CharactersPerSecond >= _speech[_lineIndex].Length;
 
@@ -145,7 +152,8 @@ public sealed class ResultsScene : Scene
         Ui.Text(g, _assessment.Grade, Ui.Huge, Ui.Gold, new RectangleF(panel.X, panel.Y + 10, 150, 110), Ui.Center);
         Ui.Text(g, $"{_assessment.OverallScore}", Ui.Huge, Color.White, new RectangleF(panel.X + 140, panel.Y + 10, 200, 110), Ui.Center);
         Ui.Text(g, "/100", Ui.Body, Ui.Muted, new RectangleF(panel.X + 270, panel.Y + 90, 80, 30), Ui.Left, shadow: false);
-        Ui.Text(g, _assessment.Title, Ui.Heading, Ui.Pink, new RectangleF(panel.X, panel.Y + 130, panel.Width, 40), Ui.Center);
+        var title = EarnedGoldRecord ? "GOLD RECORD UNLOCKED!" : _assessment.Title;
+        Ui.Text(g, title, Ui.Heading, EarnedGoldRecord ? Ui.Gold : Ui.Pink, new RectangleF(panel.X, panel.Y + 130, panel.Width, 40), Ui.Center);
         g.DrawString(_entry.Song.DisplayTitle, Ui.Body, Brushes.White, new RectangleF(panel.X + 16, panel.Y + 178, panel.Width - 32, 60), Ui.Center);
     }
 
