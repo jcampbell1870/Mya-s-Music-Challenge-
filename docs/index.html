@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100b20">
+  <meta name="description" content="Step into the spotlight. Play Mýa's Music Challenge in your browser or download it for Windows and Chromebook.">
+  <title>Mýa's Music Challenge — Take the stage</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Mýa's Music Challenge home"><span class="brand-mark">M</span><span>Mýa's <b>Music Challenge</b></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#play">Play</a><a href="#downloads">Downloads</a><a href="#how-to-play">How to play</a>
+      <button class="install-button" id="install-button" hidden>Install game</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> YOUR SPOTLIGHT IS WAITING</div>
+        <h1>Own the stage.<br><span>Find your sound.</span></h1>
+        <p>A feel-good vocal challenge inspired by Mýa's music. Warm up, follow the notes, and see how your voice shines.</p>
+        <a class="primary-button" href="#play">Start your challenge <span aria-hidden="true">↗</span></a>
+        <div class="hero-meta"><span>✦ &nbsp;Made for your voice</span><span>♪ &nbsp;No song files included</span></div>
+      </div>
+      <div class="hero-stage" aria-label="Animated concert stage">
+        <div class="stage-grid"></div>
+        <div class="spotlight beam-left"></div><div class="spotlight beam-right"></div>
+        <div class="stage-ring ring-one"></div><div class="stage-ring ring-two"></div>
+        <div class="star star-one">✦</div><div class="star star-two">✧</div><div class="star star-three">✦</div>
+        <div class="performer"><div class="hair"></div><div class="head"><i></i><b></b></div><div class="body-shape"></div><div class="arm arm-left"></div><div class="arm arm-right"></div><div class="mic"></div></div>
+        <div class="stage-floor"></div>
+        <div class="stage-caption"><span>LIVE VOCAL CHALLENGE</span><b>THE STAGE IS YOURS</b></div>
+        <div class="equalizer" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="game-panel" id="play">
+      <div class="section-heading">
+        <div><div class="eyebrow">BROWSER EDITION</div><h2>Make it your moment</h2></div>
+        <span class="privacy-pill"><span>●</span> Your mic stays on your device</span>
+      </div>
+      <div class="game-grid">
+        <div class="challenge-card">
+          <div class="challenge-top"><span class="live-label"><i></i> VOCAL WARM-UP</span><span class="session-time" id="timer">01:00</span></div>
+          <div class="note-display">
+            <span class="note-label">SING THIS NOTE</span>
+            <strong id="target-note">C4</strong>
+            <span class="note-guidance" id="live-guidance">A new note every few seconds</span>
+            <div class="note-orbit"><i></i><i></i><i></i></div>
+          </div>
+          <div class="pitch-readout"><span>YOUR NOTE</span><b id="pitch-note">—</b><span id="pitch-status">Ready when you are</span></div>
+          <div class="pitch-track" aria-label="Live pitch accuracy"><span id="pitch-fill"></span><i></i></div>
+          <div class="wave-wrap"><canvas id="waveform" aria-label="Live microphone waveform"></canvas><div id="wave-empty">Your voice will light up the stage</div></div>
+          <div class="level-row"><span>MIC LEVEL</span><div class="level-track"><i id="level-bar"></i></div><span id="level-value">—</span></div>
+          <div class="challenge-actions"><button class="primary-button" id="start-button">Start singing <span aria-hidden="true">♪</span></button><button class="secondary-button" id="stop-button" disabled>Finish</button></div>
+          <p class="mic-note" id="mic-note">Your browser will ask for microphone access when you start.</p>
+        </div>
+        <aside class="setlist-card">
+          <div class="setlist-title"><div><div class="eyebrow">PICK YOUR VIBE</div><h3>Setlist</h3></div><span id="song-count">06 TRACKS</span></div>
+          <div class="setlist" id="setlist"></div>
+          <div class="score-card">
+            <div class="score-top"><span>LAST PERFORMANCE</span><span id="last-grade">—</span></div>
+            <div class="score-main"><strong id="last-score">—</strong><span>/ 100</span></div>
+            <div class="score-foot" id="last-song">Your next great take starts here</div>
+          </div>
+          <div class="tip-card"><span>✦</span><p><b>Studio tip</b><br>Use headphones and sing one clear note at a time for the best pitch reading.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="download-section" id="downloads">
+      <div class="section-heading">
+        <div><div class="eyebrow">TAKE THE MUSIC WITH YOU</div><h2>Choose your stage</h2></div>
+        <span class="download-note">Free to play · No music files included</span>
+      </div>
+      <div class="download-grid">
+        <article class="download-card featured">
+          <div class="platform-icon windows-icon">⊞</div><div class="platform-tag">FULL DESKTOP GAME</div>
+          <h3>Windows PC</h3><p>The complete desktop experience with the concert stage, vocal assessments, synced lyrics, and your own licensed song files.</p>
+          <a class="download-button" href="https://github.com/jcampbell1870/Mya-s-Music-Challenge-/releases/latest/download/MyaMusicChallenge-Windows-x64.zip">Download for Windows <span>↓</span></a>
+          <span class="download-detail">Windows 10 / 11 · x64 · ZIP</span>
+        </article>
+        <article class="download-card">
+          <div class="platform-icon chrome-icon">◉</div><div class="platform-tag">CHROMEBOOK READY</div>
+          <h3>Chromebook</h3><p>Play right here in Chrome, or save the offline app bundle. For the best experience, install this page as an app from Chrome's menu.</p>
+          <a class="download-button secondary-download" href="https://github.com/jcampbell1870/Mya-s-Music-Challenge-/releases/latest/download/MyaMusicChallenge-Chromebook.zip">Download for Chromebook <span>↓</span></a>
+          <span class="download-detail">ChromeOS · Chrome browser · ZIP</span>
+        </article>
+      </div>
+      <p class="release-note">Downloads are published with each version. <a href="https://github.com/jcampbell1870/Mya-s-Music-Challenge-/releases">See all releases and source code ↗</a></p>
+    </section>
+
+    <section class="how-section" id="how-to-play">
+      <div class="eyebrow">SIMPLE SETUP. BIG VOICE.</div><h2>Three steps to your spotlight</h2>
+      <div class="steps">
+        <article><span>01</span><h3>Pick a song</h3><p>Choose a Mýa-inspired warm-up. The browser challenge uses original note patterns, not copyrighted recordings.</p></article>
+        <article><span>02</span><h3>Allow your mic</h3><p>Start a session and allow microphone access. Your audio is analyzed live and never uploaded or recorded.</p></article>
+        <article><span>03</span><h3>Sing your heart out</h3><p>Follow the changing target notes, finish your take, and get a quick pitch-match score.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><a class="brand" href="./"><span class="brand-mark">M</span><span>Mýa's <b>Music Challenge</b></span></a><p>Fan-made vocal game · Not affiliated with Mýa or her labels. Add only music you are licensed to use.</p><a href="https://github.com/jcampbell1870/Mya-s-Music-Challenge-">Open-source project ↗</a></footer>
+  <script src="./game.js" defer></script>
+</body>
+</html>
