@@ -27,6 +27,7 @@ The Chromebook/browser edition is an installable, microphone-powered vocal warm-
   - Detected vibrato earns a small bonus.
   - You also get vocal stats: range, detected key, average cents off pitch, longest phrase and vibrato.
   - Mýa gives her verdict in a speech bubble: strengths, things to work on, a coaching tip and a grade from **S Superstar** to **E Studio Rookie**.
+- **Gold Record reward.** Earn a perfect score of **100** to unlock a Gold Record on your results screen.
 - **All of Mýa's songs.**
   - A built-in catalog of her signature songs is always available.
   - Press **F5** to sync her full discography (albums and singles) from Spotify.
