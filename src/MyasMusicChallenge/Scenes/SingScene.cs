@@ -186,8 +186,8 @@ public sealed class SingScene : Scene
 
         for (var i = 0; i < _warnings.Count; i++)
         {
-            Ui.FillRounded(g, Color.FromArgb(220, 150, 20, 40), new RectangleF(330, 590 - i * 40, 900, 34), 10);
-            Ui.Text(g, _warnings[i], Ui.Small, Color.White, new RectangleF(342, 590 - i * 40, 880, 34), Ui.Left, shadow: false);
+            Ui.FillRounded(g, Color.FromArgb(220, 150, 20, 40), new RectangleF(330, 590 - i * 40, 860, 34), 10);
+            Ui.Text(g, _warnings[i], Ui.Small, Color.White, new RectangleF(342, 590 - i * 40, 840, 34), Ui.LeftEllipsis, shadow: false);
         }
 
         if (_phase == Phase.Ready)
@@ -340,7 +340,7 @@ public sealed class SingScene : Scene
         if (index < 0)
         {
             var untilFirst = _lyrics[0].Start.TotalSeconds - position.TotalSeconds;
-            var intro = untilFirst <= 3 && _phase == Phase.Singing ? $"Get ready… {Math.Ceiling(untilFirst)}" : "♪ Intro ♪";
+            var intro = untilFirst <= 3 && _phase == Phase.Singing ? $"Get ready… {Math.Ceiling(untilFirst)}" : "Intro";
             Ui.Text(g, intro, Ui.Lyric, Ui.Muted, currentRect, Ui.Center);
             Ui.Text(g, _lyrics[0].Text, Ui.LyricNext, Ui.Muted, nextRect, Ui.Center);
             return;
@@ -360,7 +360,7 @@ public sealed class SingScene : Scene
     {
         if (string.IsNullOrWhiteSpace(text))
         {
-            Ui.Text(g, "♪ ♪ ♪", Ui.Lyric, Ui.Muted, rect, Ui.Center);
+            Ui.Text(g, "~ ~ ~", Ui.Lyric, Ui.Muted, rect, Ui.Center);
             return;
         }
 
@@ -390,7 +390,7 @@ public sealed class SingScene : Scene
     private void DrawReadyPanel(Graphics g)
     {
         var panel = new RectangleF(330, 120, 860, 260);
-        Ui.FillRounded(g, Color.FromArgb(235, 22, 14, 48), panel, 18);
+        Ui.FillRounded(g, Color.FromArgb(255, 22, 14, 48), panel, 18);
         Ui.OutlineRounded(g, Ui.Pink, 3, panel, 18);
         Ui.Text(g, $"Ready, {Context.Profile.PlayerName}? Let's hear those vocals!", Ui.Heading, Color.White, new RectangleF(panel.X, panel.Y + 18, panel.Width, 40), Ui.Center);
         var lines = new List<string> { "No backing track is installed for this song, so the music is up to you:" };

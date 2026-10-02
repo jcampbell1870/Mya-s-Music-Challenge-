@@ -28,6 +28,20 @@ public static class Ui
     public static readonly StringFormat Center = new() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
     public static readonly StringFormat Left = new() { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
     public static readonly StringFormat Right = new() { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Center };
+    public static readonly StringFormat LeftEllipsis = new(StringFormatFlags.NoWrap)
+    {
+        Alignment = StringAlignment.Near,
+        LineAlignment = StringAlignment.Center,
+        Trimming = StringTrimming.EllipsisCharacter,
+    };
+
+    public static readonly StringFormat CenterNoWrap = new(StringFormatFlags.NoWrap)
+    {
+        Alignment = StringAlignment.Center,
+        LineAlignment = StringAlignment.Center,
+        Trimming = StringTrimming.EllipsisCharacter,
+    };
+
     public static readonly StringFormat Wrap = new() { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near, Trimming = StringTrimming.Word };
 
     public static GraphicsPath RoundedRect(RectangleF r, float radius)
@@ -122,7 +136,7 @@ public static class Ui
         var r = new RectangleF(0, Height - 40, Width, 40);
         using var brush = new SolidBrush(Color.FromArgb(170, 0, 0, 0));
         g.FillRectangle(brush, r);
-        Text(g, hints, Small, Muted, r, Center, shadow: false);
+        Text(g, hints, Small, Muted, r, CenterNoWrap, shadow: false);
     }
 
     public static string ShortAddress(string? address) =>

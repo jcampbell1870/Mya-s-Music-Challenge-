@@ -128,14 +128,14 @@ public sealed class ResultsScene : Scene
 
         var shown = (int)Math.Min(_speech[_lineIndex].Length, (Time - _lineStart) * CharactersPerSecond);
         Ui.SpeechBubble(g, new RectangleF(300, 30, 560, 250), new PointF(222, 240), _speech[_lineIndex][..shown], Ui.Body);
-        Ui.Text(g, $"Mýa • {_lineIndex + 1}/{_speech.Count}  (SPACE ▸)", Ui.Small, Ui.Muted, new RectangleF(300, 282, 560, 22), Ui.Right, shadow: false);
+        Ui.Text(g, $"Mýa • {_lineIndex + 1}/{_speech.Count}  (SPACE for more)", Ui.Small, Ui.Muted, new RectangleF(300, 282, 560, 22), Ui.Right, shadow: false);
 
         DrawScore(g);
         DrawCategories(g);
         DrawStatistics(g);
         DrawReward(g);
 
-        Ui.KeyHints(g, "SPACE/→ next comment  •  ← previous  •  C claim A1870  •  W wallet  •  R retry reward  •  A sing again  •  ENTER songs");
+        Ui.KeyHints(g, "SPACE/→ next  •  ← back  •  C claim A1870  •  W wallet  •  R retry  •  A sing again  •  ENTER songs");
     }
 
     private void DrawScore(Graphics g)
@@ -176,7 +176,7 @@ public sealed class ResultsScene : Scene
             ("Key", s.DetectedKey ?? "—"),
             ("Avg. pitch offset", $"{s.AverageCentsOff:0} cents"),
             ("Longest phrase", $"{s.LongestPhraseSeconds:0.0} s"),
-            ("Vibrato", s.VibratoDetected ? "Yes ✨" : "Not yet"),
+            ("Vibrato", s.VibratoDetected ? "Yes!" : "Not yet"),
             ("Singing time", $"{Ui.Clock(s.VoicedSeconds)} of {Ui.Clock(s.DurationSeconds)}"),
         };
         for (var i = 0; i < rows.Length; i++)

@@ -51,7 +51,7 @@ public sealed class SongSelectScene : Scene
             Ui.Text(g, _status, Ui.Body, Color.FromArgb(alpha, Color.White), new RectangleF(52, 628, 1180, 40), Ui.Left, shadow: false);
         }
 
-        Ui.KeyHints(g, "↑↓ choose  •  ENTER sing  •  S open in Spotify  •  F5 sync Spotify discography  •  W wallet  •  N name  •  M mic  •  O songs folder  •  ESC back");
+        Ui.KeyHints(g, "↑↓ choose  •  ENTER sing  •  S Spotify  •  F5 sync Spotify  •  W wallet  •  N name  •  M mic  •  O songs folder  •  ESC back");
     }
 
     private void DrawHeader(Graphics g)
@@ -87,7 +87,7 @@ public sealed class SongSelectScene : Scene
                 Ui.FillRounded(g, Color.FromArgb(200, Ui.Pink), r, 10);
             }
 
-            Ui.Text(g, entry.Song.DisplayTitle, Ui.BodyBold, Color.White, new RectangleF(r.X + 12, r.Y, r.Width - 220, r.Height), Ui.Left, shadow: false);
+            Ui.Text(g, entry.Song.DisplayTitle, Ui.BodyBold, Color.White, new RectangleF(r.X + 12, r.Y, r.Width - 230, r.Height), Ui.LeftEllipsis, shadow: false);
             var tags = string.Join(" ", new[]
             {
                 entry.HasLyrics ? "LYRICS" : null,
@@ -139,13 +139,21 @@ public sealed class SongSelectScene : Scene
         DrawCheck(g, panel.X + 20, ref y, entry.HasMelody, "Melody guide (melody.json)");
         DrawCheck(g, panel.X + 20, ref y, entry.HasSpotify, "Playable on Spotify");
 
-        Ui.Text(g, $"Add files in: Songs\\{song.Id}\\", Ui.Small, Ui.Gold, panel.X + 20, y + 6, shadow: false);
-        MyaSprite.Draw(g, panel.Right - 70, panel.Bottom - 8, 0.42f, MyaPose.Idle, Time, 0f);
+        MyaSprite.Draw(g, panel.Right - 62, panel.Bottom - 8, 0.4f, MyaPose.Idle, Time, 0f);
+        using var pathBrush = new SolidBrush(Ui.Gold);
+        g.DrawString($"Add files in:\nSongs\\{song.Id}\\", Ui.Small, pathBrush, new RectangleF(panel.X + 20, y + 6, panel.Width - 150, 60), Ui.Wrap);
     }
 
     private static void DrawCheck(Graphics g, float x, ref float y, bool ok, string label)
     {
-        Ui.Text(g, ok ? "✔" : "✖", Ui.BodyBold, ok ? Ui.Teal : Color.FromArgb(150, 255, 255, 255), x, y, shadow: false);
+        var box = new RectangleF(x, y + 4, 18, 18);
+        Ui.FillRounded(g, ok ? Ui.Teal : Color.FromArgb(70, 255, 255, 255), box, 5);
+        if (ok)
+        {
+            using var tick = new Pen(Ui.Night, 3) { StartCap = System.Drawing.Drawing2D.LineCap.Round, EndCap = System.Drawing.Drawing2D.LineCap.Round };
+            g.DrawLines(tick, new PointF[] { new(box.X + 4, box.Y + 9), new(box.X + 8, box.Y + 13), new(box.X + 14, box.Y + 5) });
+        }
+
         Ui.Text(g, label, Ui.Body, ok ? Color.White : Ui.Muted, x + 30, y, shadow: false);
         y += 30;
     }
