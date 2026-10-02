@@ -75,12 +75,19 @@ jobs:
           else
             tag="$GITHUB_REF_NAME"
           fi
-          gh release create "$tag" \
-            artifacts/MyaMusicChallenge-Windows-x64.zip \
-            artifacts/MyaMusicChallenge-Chromebook.zip \
-            --title "Mýa's Music Challenge $tag" \
-            --notes "Windows desktop game and Chromebook browser app downloads. The Chromebook PWA is available from GitHub Pages and can be installed from Chrome." \
-            --latest
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" \
+              artifacts/MyaMusicChallenge-Windows-x64.zip \
+              artifacts/MyaMusicChallenge-Chromebook.zip \
+              --clobber
+          else
+            gh release create "$tag" \
+              artifacts/MyaMusicChallenge-Windows-x64.zip \
+              artifacts/MyaMusicChallenge-Chromebook.zip \
+              --title "Mýa's Music Challenge $tag" \
+              --notes "Windows desktop game and Chromebook browser app downloads. The Chromebook PWA is available from GitHub Pages and can be installed from Chrome." \
+              --latest
+          fi
         if: ${{ !inputs.tag }}
       - name: Upload downloads to existing release
         env:

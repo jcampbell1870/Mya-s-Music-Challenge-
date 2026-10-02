@@ -23,7 +23,6 @@ let analyser = null;
 let samples = null;
 let raf = 0;
 let startedAt = 0;
-let sessionTimer = 0;
 let history = [];
 let pitchFrames = [];
 let deferredInstall = null;
@@ -169,6 +168,8 @@ async function startSession() {
   } catch (error) {
     if (media) media.getTracks().forEach((track) => track.stop());
     media = null;
+    if (audioContext) await audioContext.close();
+    audioContext = null;
     els.start.disabled = false;
     const message = error.name === "NotAllowedError" ? "Microphone access was blocked. Allow it in Chrome's address-bar settings, then try again." :
       error.name === "NotFoundError" ? "No microphone found. Connect one and try again." :
@@ -182,7 +183,6 @@ async function startSession() {
 async function finishSession() {
   if (!media) return;
   cancelAnimationFrame(raf);
-  clearInterval(sessionTimer);
   media.getTracks().forEach((track) => track.stop());
   media = null;
   if (audioContext) await audioContext.close();
