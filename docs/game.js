@@ -14,7 +14,7 @@ const els = {
   target: el("target-note"), guidance: el("live-guidance"), pitch: el("pitch-note"), status: el("pitch-status"),
   fill: el("pitch-fill"), level: el("level-bar"), levelValue: el("level-value"), canvas: el("waveform"),
   empty: el("wave-empty"), micNote: el("mic-note"), lastGrade: el("last-grade"), lastScore: el("last-score"),
-  lastSong: el("last-song"), install: el("install-button"),
+  lastSong: el("last-song"), goldRecord: el("gold-record"), install: el("install-button"),
 };
 let selectedSong = 0;
 let media = null;
@@ -206,10 +206,13 @@ async function finishSession() {
   els.lastScore.textContent = average;
   els.lastGrade.textContent = grade;
   els.lastSong.textContent = `${songs[selectedSong].title} · ${pitchFrames.length} notes heard`;
-  history.unshift({ score: average, grade, title: songs[selectedSong].title, at: Date.now() });
+  const earnedGoldRecord = average === 100;
+  els.goldRecord.hidden = !earnedGoldRecord;
+  history.unshift({ score: average, grade, title: songs[selectedSong].title, goldRecordEarned: earnedGoldRecord, at: Date.now() });
   history = history.slice(0, 10);
   try { localStorage.setItem("mya-music-challenge-scores", JSON.stringify(history)); } catch { /* storage can be disabled */ }
-  els.micNote.textContent = `${grade === "S" ? "Stunning take!" : "Nice work!"} Your pitch-match score is saved on this device.`;
+  els.micNote.textContent = earnedGoldRecord ? "Perfect 100! You earned a Gold Record!" :
+    `${grade === "S" ? "Stunning take!" : "Nice work!"} Your pitch-match score is saved on this device.`;
   document.querySelector(".score-card").animate([{ boxShadow: "0 0 0 #ff88cc00" }, { boxShadow: "0 0 28px #ff88cc55" }, { boxShadow: "0 0 0 #ff88cc00" }], { duration: 1000 });
 }
 
@@ -231,6 +234,7 @@ try {
     els.lastScore.textContent = history[0].score;
     els.lastGrade.textContent = history[0].grade;
     els.lastSong.textContent = `${history[0].title} · previous take`;
+    els.goldRecord.hidden = history[0].score !== 100;
   }
 } catch { history = []; }
 
