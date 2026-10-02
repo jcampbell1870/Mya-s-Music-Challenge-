@@ -58,7 +58,7 @@ public sealed class SingScene : Scene
                 _melody = SongLibrary.LoadMelody(melodyPath);
             }
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
         {
             _warnings.Add($"Couldn't read song files: {ex.Message}");
         }

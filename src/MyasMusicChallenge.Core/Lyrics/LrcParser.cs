@@ -31,7 +31,11 @@ public static partial class LrcParser
             if (offsetMatch.Success)
             {
                 // LRC offsets are in milliseconds; positive values make lyrics appear sooner.
-                offset = TimeSpan.FromMilliseconds(-int.Parse(offsetMatch.Groups[1].Value, CultureInfo.InvariantCulture));
+                if (int.TryParse(offsetMatch.Groups[1].Value, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var offsetMs))
+                {
+                    offset = TimeSpan.FromMilliseconds(-offsetMs);
+                }
+
                 continue;
             }
 

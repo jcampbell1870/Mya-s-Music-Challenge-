@@ -145,6 +145,14 @@ public sealed class SongLibraryTests : IDisposable
     }
 
     [Fact]
+    public void Lrc_IgnoresOutOfRangeOffsetTag()
+    {
+        var lines = LrcParser.Parse("[offset:99999999999999]\n[00:10.00]Line");
+
+        Assert.Equal(TimeSpan.FromSeconds(10), Assert.Single(lines).Start);
+    }
+
+    [Fact]
     public void Settings_LoadFromJsonWithDefaultsForMissingValues()
     {
         var path = Path.Combine(_root, GameSettings.FileName);
